@@ -1,0 +1,5 @@
+mongo:
+  host: http://localhost:27027
+  username: admin
+  passsword: password
+  auth_database: admin

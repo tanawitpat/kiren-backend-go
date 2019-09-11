@@ -1,0 +1,5 @@
+package: kiren-backend-go
+import:
+- package: github.com/gin-gonic/gin
+- package: github.com/sirupsen/logrus
+- package: github.com/spf13/viper
