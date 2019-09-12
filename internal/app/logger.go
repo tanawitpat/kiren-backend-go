@@ -30,7 +30,8 @@ func InitLogger() *logrus.Logger {
 	return log
 }
 
-// InitLoggerEndpoint initilizes a logger for all endpoints
+// InitLoggerEndpoint initilizes a logger for all endpoints.
+// The logger includes http_method, request_uri, and user_agent in a message.
 func InitLoggerEndpoint(r *http.Request) *logrus.Entry {
 	switch env {
 	case "dev":
@@ -47,7 +48,6 @@ func InitLoggerEndpoint(r *http.Request) *logrus.Entry {
 		log.Level = logrus.InfoLevel
 	}
 	logger := log.WithFields(logrus.Fields{
-		"request_id":  r.Header.Get("request_id"),
 		"http_method": r.Method,
 		"request_uri": fmt.Sprintf("%s", r.RequestURI),
 		"user_agent":  r.UserAgent(),

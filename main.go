@@ -8,6 +8,7 @@ import (
 func main() {
 	log := app.InitLogger()
 
+	// Read service configs from a config file
 	if err := app.InitConfig(); err != nil {
 		panic(err)
 	}
