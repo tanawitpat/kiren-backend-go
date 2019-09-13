@@ -2,12 +2,13 @@ package product
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 )
 
 // loadProduct reads product.json and returns list of products.
-func loadProduct() ([]Product, error) {
-	products := []Product{}
+func loadProduct() (Products, error) {
+	products := Products{}
 
 	// Read product data
 	productFile, err := ioutil.ReadFile("data/products.json")
@@ -22,4 +23,18 @@ func loadProduct() ([]Product, error) {
 	}
 
 	return products, nil
+}
+
+// filterProduct filters products using product ID
+func (products Products) filterProduct(expectedProductID string) (Product, error) {
+	product := Product{}
+
+	// Filter products via product ID
+	for i := range products {
+		if products[i].ID == expectedProductID {
+			return products[i], nil
+		}
+	}
+
+	return product, errors.New("Not found")
 }

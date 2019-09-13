@@ -1,7 +1,8 @@
 ### LOCAL - ping
-
 GET http://localhost:8080/ping
 
 ### LOCAL - products
-
 GET http://localhost:8080/products
+
+### LOCAL - product
+GET http://localhost:8080/product/AAA25
