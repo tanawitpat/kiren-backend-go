@@ -55,9 +55,10 @@ func GetProduct(c *gin.Context, productID string) {
 	}
 	logger.Debugf("Product data: %+v", products)
 
-	product, err := products.filterProduct(productID)
+	// Select a product using product ID
+	product, err := products.selectProduct(productID)
 	if err != nil {
-		logger.Errorf("%s: %+v", "Cannot filter product data", err)
+		logger.Errorf("%s: %+v", "Cannot select product data", err)
 		res.Error = app.ErrorResp{
 			Name:    app.ERR.InternalServerError.Name,
 			Message: app.ERR.InternalServerError.Message,

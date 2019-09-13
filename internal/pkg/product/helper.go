@@ -25,8 +25,8 @@ func loadProduct() (Products, error) {
 	return products, nil
 }
 
-// filterProduct filters products using product ID
-func (products Products) filterProduct(expectedProductID string) (Product, error) {
+// selectProduct selects a product using product ID
+func (products Products) selectProduct(expectedProductID string) (Product, error) {
 	product := Product{}
 
 	// Filter products via product ID
