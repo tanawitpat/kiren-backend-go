@@ -1,68 +1,73 @@
 package app
 
 import (
-	"fmt"
-	"time"
+	"strings"
 
 	"github.com/spf13/viper"
 )
 
-// CFG contains general config values. It can be accessed after initialized with function InitConfig.
-var CFG = &GeneralConfig{}
+// CFG contains app config values. It can be accessed after initialized with function InitConfig.
+var CFG = &appConfig{}
 
-// ERR contains error messages. It can be accessed after initialized with function InitConfig.
-var ERR = &Errors{}
+// ERR contains error config values. It can be accessed after initialized with function InitConfig.
+var ERR = &errorConfig{}
 
-// GeneralConfig represents the general config model.
-type GeneralConfig struct {
-	Mongo struct {
-		Host         string        `mapstructure:"host"`
-		Timeout      time.Duration `mapstructure:"timeout"`
-		Username     string        `mapstructure:"username"`
-		Password     string        `mapstructure:"password"`
-		AuthDatabase string        `mapstructure:"auth_database"`
-	} `mapstructure:"mongo"`
+// Config represents the config model.
+type appConfig struct {
+	Port int `mapstructure:"port"`
 }
 
-// Errors represents the errors config model.
-type Errors struct {
-	BadRequest          Error `mapstructure:"bad_request"`
-	InternalServerError Error `mapstructure:"internal_server_error"`
+// errorConfig represents the error config model.
+type errorConfig struct {
+	BadRequest          errorDetailConfig `mapstructure:"bad_request"`
+	InternalServerError errorDetailConfig `mapstructure:"internal_server_error"`
 }
 
-// Error represents the error config model.
-type Error struct {
-	Code string `mapstructure:"code"`
-	Name string `mapstructure:"name"`
+// errorDetailConfig represents the error detail config model.
+type errorDetailConfig struct {
+	Code    int    `mapstructure:"code"`
+	Name    string `mapstructure:"name"`
+	Message string `mapstructure:"message"`
 }
 
 // InitConfig reads a config file and bind with config model.
 func InitConfig() error {
 	v := viper.New()
+
+	// Define a config directory
 	v.AddConfigPath("configs")
-	// Read general config file
-	generalConfigPath := fmt.Sprintf("config.%s", "local")
-	v.SetConfigName(generalConfigPath)
+	v.SetConfigType("yml")
 
+	// Read environment variables and concatenate config hierarchy with underscore
+	v.AutomaticEnv()
+	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+
+	// Read and bind app config
+	v.SetConfigName("app")
 	if err := v.ReadInConfig(); err != nil {
-		log.Infof("Read config file error: %+v", err)
+		log.Infof("Read app config file error: %+v", err)
 		return err
 	}
-	// Bind general config to viper
-	if err := bindingGeneralConfig(v, CFG); err != nil {
-		log.Infof("Binding config error: %+v", err)
+	if err := bindingAppConfig(v, CFG); err != nil {
+		log.Infof("Bind app config error: %+v", err)
 		return err
 	}
 
-	// Bind error config to viper
-	if err := bindingErrorConfig(v, ERR); err != nil {
-		log.Infof("Binding config error: %+v", err)
+	// Read and bind error config
+	v.SetConfigName("error")
+	if err := v.ReadInConfig(); err != nil {
+		log.Infof("Read error config file error: %+v", err)
 		return err
 	}
+	if err := bindingErrorConfig(v, ERR); err != nil {
+		log.Infof("Bind error config error: %+v", err)
+		return err
+	}
+
 	return nil
 }
 
-func bindingGeneralConfig(vp *viper.Viper, cfg *GeneralConfig) error {
+func bindingAppConfig(vp *viper.Viper, cfg *appConfig) error {
 	if err := vp.Unmarshal(&cfg); err != nil {
 		log.Infof("Unmarshal config error: %+v", err)
 		return err
@@ -70,7 +75,7 @@ func bindingGeneralConfig(vp *viper.Viper, cfg *GeneralConfig) error {
 	return nil
 }
 
-func bindingErrorConfig(vp *viper.Viper, err *Errors) error {
+func bindingErrorConfig(vp *viper.Viper, err *errorConfig) error {
 	if err := vp.Unmarshal(&err); err != nil {
 		log.Infof("Unmarshal config error: %+v", err)
 		return err

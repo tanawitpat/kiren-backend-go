@@ -21,10 +21,10 @@ func GetProducts(c *gin.Context) {
 	if err != nil {
 		logger.Errorf("%s: %+v", "Cannot fetch products data", err)
 		res.Error = app.ErrorResp{
-			Name:    "INTERNAL_SERVER_ERROR",
-			Message: "System cannot process this transaction at the moment.",
+			Name:    app.ERR.InternalServerError.Name,
+			Message: app.ERR.InternalServerError.Message,
 		}
-		c.JSON(http.StatusInternalServerError, res)
+		c.JSON(app.ERR.InternalServerError.Code, res)
 		return
 	}
 	logger.Debugf("Product data: %+v", products)
