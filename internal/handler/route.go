@@ -18,5 +18,9 @@ func NewRouter() *gin.Engine {
 		product.GetProducts(c)
 	})
 
+	r.GET("/product/:id", func(c *gin.Context) {
+		product.GetProduct(c, c.Param("id"))
+	})
+
 	return r
 }

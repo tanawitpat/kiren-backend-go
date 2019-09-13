@@ -14,7 +14,9 @@ var ERR = &errorConfig{}
 
 // Config represents the config model.
 type appConfig struct {
-	Port int `mapstructure:"port"`
+	App struct {
+		Port int `mapstructure:"port"`
+	} `mapstructure:"app"`
 }
 
 // errorConfig represents the error config model.
@@ -30,7 +32,7 @@ type errorDetailConfig struct {
 	Message string `mapstructure:"message"`
 }
 
-// InitConfig reads a config file and bind with config model.
+// InitConfig binds values from environment variables and config files with config models.
 func InitConfig() error {
 	v := viper.New()
 
