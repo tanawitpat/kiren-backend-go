@@ -1,0 +1,10 @@
+error:
+  internal_server_error:
+    name: "INTERNAL_SERVER_ERROR"
+    message: "System cannot process this transaction at the moment"
+    code: 500
+
+  bad_request:
+    name: "BAD_REQUEST"
+    message: "The provided information is either missing or incorrect"
+    code: 400
