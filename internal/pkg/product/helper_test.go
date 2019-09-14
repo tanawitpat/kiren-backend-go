@@ -7,7 +7,7 @@ import (
 )
 
 // Happy test case of selectProduct function.
-func TestFilterProductFound(t *testing.T) {
+func TestSelectProductFound(t *testing.T) {
 	products := Products{
 		Product{
 			ID:     "AA001",
@@ -44,7 +44,7 @@ func TestFilterProductFound(t *testing.T) {
 }
 
 // Product not found case of selectProduct function.
-func TestFilterProductNotFound(t *testing.T) {
+func TestSelectProductNotFound(t *testing.T) {
 	products := Products{
 		Product{
 			ID:     "AA001",
@@ -74,5 +74,93 @@ func TestFilterProductNotFound(t *testing.T) {
 		Product{},
 		product,
 		"Output should be a emtry struct",
+	)
+}
+
+// Multiple best seller products case of getBestSellerProduct function.
+func TestGetBestSellerProductMultipleBestSeller(t *testing.T) {
+	products := Products{
+		Product{
+			ID:             "AA001",
+			NameTH:         "เตาย่าง หมายเลข 1",
+			NameEN:         "Thai stove No.1",
+			BestSellerFlag: true,
+		},
+		Product{
+			ID:             "AA002",
+			NameTH:         "เตาย่าง หมายเลข 2",
+			NameEN:         "Thai stove No.2",
+			BestSellerFlag: true,
+		},
+		Product{
+			ID:             "AA003",
+			NameTH:         "เตาย่าง หมายเลข 3",
+			NameEN:         "Thai stove No.3",
+			BestSellerFlag: false,
+		},
+	}
+
+	bestSellerProduct := products.getBestSellerProduct()
+
+	// bestSellerProduct object should contain two products.
+	assert.Equal(
+		t,
+		[]Product{
+			Product{
+				ID:             "AA001",
+				NameTH:         "เตาย่าง หมายเลข 1",
+				NameEN:         "Thai stove No.1",
+				BestSellerFlag: true,
+			},
+			Product{
+				ID:             "AA002",
+				NameTH:         "เตาย่าง หมายเลข 2",
+				NameEN:         "Thai stove No.2",
+				BestSellerFlag: true,
+			},
+		},
+		bestSellerProduct,
+		"Output should contain AA001 and AA002",
+	)
+}
+
+// One best seller product case of getBestSellerProduct function.
+func TestGetBestSellerProductOneBestSeller(t *testing.T) {
+	products := Products{
+		Product{
+			ID:             "AA001",
+			NameTH:         "เตาย่าง หมายเลข 1",
+			NameEN:         "Thai stove No.1",
+			BestSellerFlag: false,
+		},
+		Product{
+			ID:             "AA002",
+			NameTH:         "เตาย่าง หมายเลข 2",
+			NameEN:         "Thai stove No.2",
+			BestSellerFlag: true,
+		},
+		Product{
+			ID:             "AA003",
+			NameTH:         "เตาย่าง หมายเลข 3",
+			NameEN:         "Thai stove No.3",
+			BestSellerFlag: false,
+		},
+	}
+
+	bestSellerProduct := products.getBestSellerProduct()
+
+	// bestSellerProduct object should contain only one product.
+	assert.Equal(
+		t,
+		[]Product{
+			Product{
+				ID:             "AA002",
+				NameTH:         "เตาย่าง หมายเลข 2",
+				NameEN:         "Thai stove No.2",
+				BestSellerFlag: true,
+			},
+		},
+		bestSellerProduct,
+		"Output should be AA002 product only",
 	)
 }

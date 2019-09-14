@@ -34,7 +34,7 @@ func GetProducts(c *gin.Context) {
 }
 
 // GetProduct is a logic of the /product endpoint.
-// The function inquiries product data and returns in JSON form.
+// The function inquiries a product and returns in JSON form.
 func GetProduct(c *gin.Context, productID string) {
 	// Initialize logger
 	logger := app.InitLogger()
@@ -68,5 +68,43 @@ func GetProduct(c *gin.Context, productID string) {
 	}
 
 	res.ProductData = product
+	c.JSON(http.StatusOK, res)
+}
+
+// GetBestSellerProduct is a logic of the /best_seller_product endpoint.
+// The function inquiries best seller products and returns in JSON form.
+func GetBestSellerProduct(c *gin.Context) {
+	// Initialize logger
+	logger := app.InitLogger()
+
+	// Initialize response model
+	res := BestSellerProductResponse{}
+
+	// Load all products
+	products, err := loadProduct()
+	if err != nil {
+		logger.Errorf("%s: %+v", "Cannot fetch product data", err)
+		res.Error = app.ErrorResp{
+			Name:    app.ERR.InternalServerError.Name,
+			Message: app.ERR.InternalServerError.Message,
+		}
+		c.JSON(app.ERR.InternalServerError.Code, res)
+		return
+	}
+	logger.Debugf("Product data: %+v", products)
+
+	// Filter best seller products using best_seller_flag
+	bestSellerProducts := products.getBestSellerProduct()
+	if err != nil {
+		logger.Errorf("%s: %+v", "Cannot select product data", err)
+		res.Error = app.ErrorResp{
+			Name:    app.ERR.InternalServerError.Name,
+			Message: app.ERR.InternalServerError.Message,
+		}
+		c.JSON(app.ERR.InternalServerError.Code, res)
+		return
+	}
+
+	res.ProductData = bestSellerProducts
 	c.JSON(http.StatusOK, res)
 }
