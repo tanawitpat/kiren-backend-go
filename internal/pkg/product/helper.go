@@ -38,3 +38,16 @@ func (products Products) selectProduct(expectedProductID string) (Product, error
 
 	return product, errors.New("Not found")
 }
+
+func (products Products) getBestSellerProduct() []Product {
+	bestSellerProducts := []Product{}
+
+	// Append best seller products to bestSellerProducts slice
+	for i := range products {
+		if products[i].BestSellerFlag {
+			bestSellerProducts = append(bestSellerProducts, products[i])
+		}
+	}
+
+	return bestSellerProducts
+}

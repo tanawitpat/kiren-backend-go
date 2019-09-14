@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// NewRouter handles all routes in the service.
 func NewRouter() *gin.Engine {
 	r := gin.Default()
 
@@ -20,6 +21,10 @@ func NewRouter() *gin.Engine {
 
 	r.GET("/product/:id", func(c *gin.Context) {
 		product.GetProduct(c, c.Param("id"))
+	})
+
+	r.GET("/best_seller_product", func(c *gin.Context) {
+		product.GetBestSellerProduct(c)
 	})
 
 	return r
