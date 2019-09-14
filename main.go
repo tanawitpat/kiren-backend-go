@@ -3,6 +3,7 @@ package main
 import (
 	"kiren-backend-go/internal/app"
 	"kiren-backend-go/internal/handler"
+	"strconv"
 )
 
 func main() {
@@ -12,8 +13,9 @@ func main() {
 	if err := app.InitConfig(); err != nil {
 		panic(err)
 	}
-	log.Infof("Initial config: %+v", app.CFG)
+	log.Infof("Initial app config: %+v", app.CFG)
+	log.Infof("Initial error config: %+v", app.ERR)
 
 	router := handler.NewRouter()
-	router.Run()
+	router.Run(":" + strconv.Itoa(app.CFG.App.Port))
 }

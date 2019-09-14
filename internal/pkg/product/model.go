@@ -4,6 +4,9 @@ import (
 	"kiren-backend-go/internal/app"
 )
 
+// Products represents the products model
+type Products []Product
+
 // Product represents the product model
 type Product struct {
 	ID               string  `json:"product_id"`
@@ -19,6 +22,18 @@ type Product struct {
 
 // GetProductsResponse represents the response model of GetProducts endpoint.
 type GetProductsResponse struct {
+	ProductData []Product     `json:"product_data"`
+	Error       app.ErrorResp `json:"error,omitempty"`
+}
+
+// GetProductResponse represents the response model of GetProduct endpoint.
+type GetProductResponse struct {
+	ProductData Product       `json:"product_data"`
+	Error       app.ErrorResp `json:"error,omitempty"`
+}
+
+// BestSellerProductResponse represents the response model of GetBestSellerProduct endpoint.
+type BestSellerProductResponse struct {
 	ProductData []Product     `json:"product_data"`
 	Error       app.ErrorResp `json:"error,omitempty"`
 }
