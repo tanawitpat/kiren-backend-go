@@ -2,10 +2,10 @@ version: "3.2"
 services:
   api:
     container_name: kiren-api
-    image: kiren-api:${APP_VERSION:-latest}
+    image: kiren-api
     build:
       context: ../../
-      dockerfile: deployment/local/Dockerfile
+      dockerfile: deployment/prd/Dockerfile
     networks:
       - kiren
     ports:

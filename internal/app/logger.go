@@ -9,12 +9,12 @@ import (
 
 var log = logrus.New()
 
-const env = "dev"
+const env = "local"
 
 // InitLogger initializes a logger for main.go file.
 func InitLogger() *logrus.Logger {
 	switch env {
-	case "dev":
+	case "local":
 		log.Formatter = &logrus.TextFormatter{
 			TimestampFormat: "2006-01-02 15:04:05",
 			FullTimestamp:   true,
@@ -34,7 +34,7 @@ func InitLogger() *logrus.Logger {
 // The logger includes http_method, request_uri, and user_agent in a message.
 func InitLoggerEndpoint(r *http.Request) *logrus.Entry {
 	switch env {
-	case "dev":
+	case "local":
 		log.Formatter = &logrus.TextFormatter{
 			TimestampFormat: "2006-01-02 15:04:05",
 			FullTimestamp:   true,
