@@ -25,5 +25,8 @@ generate_deployment:
 deploy: generate_deployment
 	kubectl apply -f deployment/prd/api-deployment.yaml
 
+apply_secret:
+	kubectl apply -f deployment/prd/api-secrets.yaml
+
 unit_test:
 	go test ./...

@@ -1,6 +1,6 @@
 # kiren-backend-go
 
-**URL:** <https://kiren.tanawitp.me>
+**Frontend URL:** <https://kiren.tanawitp.me>
 
 ## Commands
 

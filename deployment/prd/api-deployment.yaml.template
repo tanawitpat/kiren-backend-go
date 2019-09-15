@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kiren-backend-api-config
+  name: kiren-api-config
 data:
   SERVER_PORT: "8080"
 
@@ -10,51 +10,51 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kiren-backend-api-deployment
+  name: kiren-api-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kiren-backend-api
+      app: kiren-api
   template:
     metadata:
       labels:
-        app: kiren-backend-api
+        app: kiren-api
     spec:
       containers:
       - image: asia.gcr.io/${GCLOUD_PROJECT_ID}/kiren-api:latest
-        name: kiren-backend-api
+        name: kiren-api
         ports:
         - containerPort: 8080
         envFrom:
           - configMapRef:
-              name: kiren-backend-api-config
+              name: kiren-api-config
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: kiren-backend-api-service
+  name: kiren-api-service
 spec:
   type: LoadBalancer
   ports:
   - port: 8080
     targetPort: 8080
   selector:
-    app: kiren-backend-api
+    app: kiren-api
 
 ---
 
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: kiren-backend-api-hpa
+  name: kiren-api-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: kiren-backend-api
+    name: kiren-api
   minReplicas: 1
   maxReplicas: 2
   metrics:
