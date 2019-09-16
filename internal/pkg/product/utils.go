@@ -9,13 +9,15 @@ import (
 )
 
 // loadProduct reads product.json and returns list of products.
+// The function fetches the data from `mocked/products.json`.
+// Otherwise, it fetches the data from S3 storage.
 func loadProduct() (Products, error) {
 	products := Products{}
 
 	// Read product data
 	if app.CFG.App.Env == "local" {
 		// If the service is runnning on local environment, load products data from a local file.
-		productFile, err := ioutil.ReadFile("data/products.json")
+		productFile, err := ioutil.ReadFile("mocked/products.json")
 		if err != nil {
 			return products, err
 		}
@@ -50,6 +52,7 @@ func (products Products) selectProduct(expectedProductID string) (Product, error
 	return product, errors.New("Not found")
 }
 
+// getBestSellerProduct selects best seller products using best_seller_flag field.
 func (products Products) getBestSellerProduct() []Product {
 	bestSellerProducts := []Product{}
 
