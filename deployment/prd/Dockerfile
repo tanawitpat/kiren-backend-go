@@ -6,6 +6,6 @@ RUN go build -o app .
 FROM alpine:latest
 WORKDIR /root/
 COPY --from=0 /go/src/kiren-backend-go/app .
-COPY data data
+COPY mocked mocked
 COPY configs configs
 CMD ["./app"]
