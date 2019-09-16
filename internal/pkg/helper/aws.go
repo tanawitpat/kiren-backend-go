@@ -1,43 +1,64 @@
 package helper
 
 import (
-	"fmt"
-	"log"
+	"bytes"
+	"io"
+	"kiren-backend-go/internal/app"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
 
 // GetFileFromS3 fetchs a file from S3 storage.
-// The AWS credential is included in the function.
-func GetFileFromS3(imagePath string) (interface{}, error) {
-	// 1. Define your bucket and item names
+// The AWS credential will be imported inside the function.
+func GetFileFromS3(imagePath string) ([]byte, error) {
+	// Define bucket and item names
 	bucket := "static.kiren.tanawitp.me"
 	item := imagePath
+	// fileByte := make([]byte, 0)
+	var fileByte []byte
 
-	// 2. Create an AWS session
-	sess, _ := session.NewSession(&aws.Config{
+	// Create an AWS session
+	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String("ap-southeast-1"),
+		Credentials: credentials.NewStaticCredentials(
+			app.CFG.AWS.AccessKeyID,
+			app.CFG.AWS.SecretAccessKey,
+			"",
+		),
 	})
+	if err != nil {
+		return fileByte, err
+	}
 
-	// 3. Create a new AWS S3 downloader
+	// Create a new AWS S3 downloader
 	downloader := s3manager.NewDownloader(sess)
 
-	// 4. Download the item from the bucket. If an error occurs, log it and exit.
-	// Otherwise, notify the user that the download succeeded.
+	// Create an emtry file.
 	file, err := os.Create(item)
-	numBytes, err := downloader.Download(file,
+	if err != nil {
+		return fileByte, err
+	}
+
+	// Download the item from the bucket.
+	_, err = downloader.Download(file,
 		&s3.GetObjectInput{
 			Bucket: aws.String(bucket),
 			Key:    aws.String(item),
 		},
 	)
 	if err != nil {
-		log.Fatalf("Unable to download item %q, %v", item, err)
+		return fileByte, err
 	}
-	fmt.Println("Downloaded", file.Name(), numBytes, "bytes")
-	return file, nil
+
+	// Convert File to []byte
+	buf := bytes.NewBuffer(nil)
+	io.Copy(buf, file)
+	fileByte = buf.Bytes()
+
+	return fileByte, nil
 }

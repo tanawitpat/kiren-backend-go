@@ -3,7 +3,6 @@ package product
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"kiren-backend-go/internal/app"
 	"kiren-backend-go/internal/pkg/helper"
@@ -29,14 +28,10 @@ func loadProduct() (Products, error) {
 		if err != nil {
 			return products, err
 		}
-		fmt.Println(fileByte)
+		if err = json.Unmarshal(fileByte, &products); err != nil {
+			return products, err
+		}
 	}
-
-	// Extract the JSON file and map it to the product model
-	// err := json.Unmarshal([]byte(productFile), &products)
-	// if err != nil {
-	// 	return products, err
-	// }
 
 	return products, nil
 }
