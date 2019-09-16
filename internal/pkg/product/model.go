@@ -4,10 +4,10 @@ import (
 	"kiren-backend-go/internal/app"
 )
 
-// Products represents the products model
+// Products represents the products model.
 type Products []Product
 
-// Product represents the product model
+// Product represents the product model.
 type Product struct {
 	ID               string  `json:"product_id"`
 	NameTH           string  `json:"product_name_th"`
