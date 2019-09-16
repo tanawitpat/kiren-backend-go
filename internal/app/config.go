@@ -15,8 +15,13 @@ var ERR = &errorConfig{}
 // Config represents the config model.
 type appConfig struct {
 	App struct {
-		Port int `mapstructure:"port"`
+		Port int    `mapstructure:"port"`
+		Env  string `mapstructure:"env"`
 	} `mapstructure:"app"`
+	AWS struct {
+		AccessKeyID     string `mapstructure:"access_key_id"`
+		SecretAccessKey string `mapstructure:"secret_access_key"`
+	} `mapstructure:"aws"`
 }
 
 // errorConfig represents the error config model.
