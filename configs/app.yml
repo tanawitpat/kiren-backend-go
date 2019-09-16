@@ -1,6 +1,7 @@
 app:
   env: local
   port: 8080
+
 aws:
   access_key_id: ""
   secret_access_key: ""
