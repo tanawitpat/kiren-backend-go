@@ -9,14 +9,14 @@ import (
 )
 
 // loadProduct reads product.json and returns list of products.
-// The function fetches the data from `mocked/products.json`.
+// The function fetches the data from `mocked/products.json` on local environment.
 // Otherwise, it fetches the data from S3 storage.
 func loadProduct() (Products, error) {
 	products := Products{}
 
 	// Read product data
 	if app.CFG.App.Env == "local" {
-		// If the service is runnning on local environment, load products data from a local file.
+		// If the service is runnning on local environment, it loads products data from a local file.
 		productFile, err := ioutil.ReadFile("mocked/products.json")
 		if err != nil {
 			return products, err
@@ -25,7 +25,7 @@ func loadProduct() (Products, error) {
 			return products, err
 		}
 	} else {
-		// If the service is not runnning on local environment, fetches products data from S3.
+		// If the service is not runnning on local environment, It fetches products data from S3.
 		fileByte, err := helper.GetFileFromS3("products.json")
 		if err != nil {
 			return products, err

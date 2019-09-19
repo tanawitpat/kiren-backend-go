@@ -14,8 +14,6 @@ import (
 )
 
 // GetFileFromS3 fetchs a file from S3 storage.
-// The function fetches the data from `mocked/products.json` on local environment.
-// Otherwise, it fetches the data from S3 storage.
 // The AWS credential is imported from environment variables.
 func GetFileFromS3(imagePath string) ([]byte, error) {
 	// Define bucket and item names
