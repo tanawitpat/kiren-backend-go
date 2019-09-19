@@ -65,3 +65,18 @@ func (products Products) getBestSellerProduct() []Product {
 
 	return bestSellerProducts
 }
+
+// selectProductRandom selects products randomly.
+func (products Products) selectProductRandom(nProduct int) ([]Product, error) {
+	var outputProducts []Product
+	if len(products) < nProduct {
+		return outputProducts, errors.New("nProduct is more than a number of products")
+	}
+
+	randomIntegerSlice := helper.GenerateRandomInteger(nProduct)
+	for i := range randomIntegerSlice {
+		outputProducts = append(outputProducts, products[i])
+	}
+
+	return outputProducts, nil
+}

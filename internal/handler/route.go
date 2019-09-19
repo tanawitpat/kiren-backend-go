@@ -24,7 +24,11 @@ func NewRouter() *gin.Engine {
 	})
 
 	r.GET("/best_seller_product", func(c *gin.Context) {
-		product.GetBestSellerProduct(c)
+		product.GetBestSellerProducts(c)
+	})
+
+	r.GET("/relevant_product", func(c *gin.Context) {
+		product.GetRelevantProducts(c)
 	})
 
 	return r

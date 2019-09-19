@@ -71,9 +71,9 @@ func GetProduct(c *gin.Context, productID string) {
 	c.JSON(http.StatusOK, res)
 }
 
-// GetBestSellerProduct is a logic of the /best_seller_product endpoint.
+// GetBestSellerProducts is a logic of the /best_seller_product endpoint.
 // The function inquiries best seller products and returns in JSON form.
-func GetBestSellerProduct(c *gin.Context) {
+func GetBestSellerProducts(c *gin.Context) {
 	// Initialize logger
 	logger := app.InitLogger()
 
@@ -91,7 +91,6 @@ func GetBestSellerProduct(c *gin.Context) {
 		c.JSON(app.ERR.InternalServerError.Code, res)
 		return
 	}
-	logger.Debugf("Product data: %+v", products)
 
 	// Filter best seller products using best_seller_flag
 	bestSellerProducts := products.getBestSellerProduct()
@@ -106,5 +105,42 @@ func GetBestSellerProduct(c *gin.Context) {
 	}
 
 	res.ProductData = bestSellerProducts
+	c.JSON(http.StatusOK, res)
+}
+
+// GetRelevantProducts is a logic of the /relevant_project endpoint.
+// The function samples the products and returns in JSON form.
+func GetRelevantProducts(c *gin.Context) {
+	// Initialize logger
+	logger := app.InitLogger()
+
+	// Initialize response model
+	res := BestSellerProductResponse{}
+
+	// Load all products
+	products, err := loadProduct()
+	if err != nil {
+		logger.Errorf("%s: %+v", "Cannot fetch product data", err)
+		res.Error = app.ErrorResp{
+			Name:    app.ERR.InternalServerError.Name,
+			Message: app.ERR.InternalServerError.Message,
+		}
+		c.JSON(app.ERR.InternalServerError.Code, res)
+		return
+	}
+
+	// Sample products ramdomly
+	relevantProducts, err := products.selectProductRandom(4)
+	if err != nil {
+		logger.Errorf("%s: %+v", "Cannot sample products from product data", err)
+		res.Error = app.ErrorResp{
+			Name:    app.ERR.InternalServerError.Name,
+			Message: app.ERR.InternalServerError.Message,
+		}
+		c.JSON(app.ERR.InternalServerError.Code, res)
+		return
+	}
+
+	res.ProductData = relevantProducts
 	c.JSON(http.StatusOK, res)
 }

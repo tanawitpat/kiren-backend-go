@@ -9,3 +9,6 @@ GET http://localhost:8080/product/AAA25
 
 ### LOCAL - best_seller_product
 GET http://localhost:8080/best_seller_product
+
+### LOCAL - relevant_product
+GET http://localhost:8080/relevant_product
