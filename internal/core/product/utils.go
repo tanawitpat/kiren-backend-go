@@ -5,7 +5,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"kiren-backend-go/internal/app"
-	"kiren-backend-go/internal/pkg/helper"
+	"kiren-backend-go/internal/helper"
 )
 
 // loadProduct reads product.json and returns list of products.

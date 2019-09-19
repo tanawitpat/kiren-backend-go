@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"kiren-backend-go/internal/pkg/pingpong"
-	"kiren-backend-go/internal/pkg/product"
+	"kiren-backend-go/internal/core/pingpong"
+	"kiren-backend-go/internal/core/product"
 
 	"github.com/gin-gonic/gin"
 )
