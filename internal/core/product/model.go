@@ -28,8 +28,9 @@ type GetProductsResponse struct {
 
 // GetProductResponse represents the response model of GetProduct endpoint.
 type GetProductResponse struct {
-	ProductData Product       `json:"product_data"`
-	Error       app.ErrorResp `json:"error,omitempty"`
+	ProductData         Product       `json:"product_data"`
+	RelevantProductData []Product     `json:"relevant_product_data"`
+	Error               app.ErrorResp `json:"error,omitempty"`
 }
 
 // BestSellerProductResponse represents the response model of GetBestSellerProduct endpoint.
