@@ -11,6 +11,10 @@ import (
 func NewRouter() *gin.Engine {
 	r := gin.Default()
 
+	// Insert CORS middleware definition before any routes
+	r.Use(corsMiddleware)
+
+	// Define routes
 	r.GET("/ping", func(c *gin.Context) {
 		pingpong.Ping(c)
 	})
