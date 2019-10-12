@@ -30,3 +30,6 @@ apply_secret:
 
 unit_test:
 	go test ./...
+
+api_spec:
+	go run swagger/main.go
