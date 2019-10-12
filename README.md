@@ -8,7 +8,7 @@
 
 ## API Specification
 
-The API specification is served by Swagger. You can access it via `make api_spec` command.
+The API specification is served by Swagger. It can be accessed via `make api_spec` command.
 
 ## Commands
 
