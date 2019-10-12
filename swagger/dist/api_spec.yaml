@@ -43,13 +43,6 @@ components:
           type: object
         error:
           $ref: '#/components/schemas/error'
-    product_internal_server_error_response_schema:
-      type: object
-      properties:
-        product_data:
-          type: object
-        error:
-          $ref: '#/components/schemas/error'
     product:
       type: object
       description: Product object 
