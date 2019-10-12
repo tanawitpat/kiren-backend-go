@@ -2,6 +2,10 @@
 
 **Frontend URL:** <https://kiren.tanawitp.me>
 
+## Project Maintainer
+
+- Tanawit Pattanaveerangkoon <<tanawit.pat@gmail.com>>
+
 ## API Specification
 
 The API specification is served by Swagger. You can access it via `make api_spec` command.
