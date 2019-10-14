@@ -25,7 +25,7 @@ make run
 # Run unit tests
 make unit_test
 
-# Deploy
+# Deploy the service to GKE
 make deploy GCLOUD_PROJECT_ID=<GCLOUD_PROJECT_ID>
 
 # Preview API specification
