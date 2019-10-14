@@ -1,6 +1,6 @@
 # kiren-backend-go
 
-**Frontend URL:** <https://kiren.tanawitp.me>
+**Frontend Repository:** <https://github.com/tanawitpat/kiren-frontend>
 
 ## Project Maintainer
 
