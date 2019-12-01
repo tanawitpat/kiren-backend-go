@@ -22,6 +22,13 @@ type appConfig struct {
 		AccessKeyID     string `mapstructure:"access_key_id"`
 		SecretAccessKey string `mapstructure:"secret_access_key"`
 	} `mapstructure:"aws"`
+	DB struct {
+		Host     string `mapstructure:"host"`
+		Port     int    `mapstructure:"port"`
+		Username string `mapstructure:"username"`
+		Password string `mapstructure:"password"`
+		DBName   string `mapstructure:"db_name"`
+	} `mapstructure:"mysql"`
 }
 
 // errorConfig represents the error config model.

@@ -42,9 +42,10 @@ func GetProduct(c *gin.Context, productID string) {
 	// Initialize response model
 	res := GetProductResponse{}
 
-	// Load all products
-	products, err := loadProduct()
+	product := Product{}
+	sqlRow, err := app.QueryRow(`SELECT product_id, product_name_th, product_description_th, product_image_path, product_price FROM products WHERE product_id="` + productID + `"`)
 	if err != nil {
+		logger.Errorln("HELLOWORLD")
 		logger.Errorf("%s: %+v", "Cannot fetch product data", err)
 		res.Error = app.ErrorResp{
 			Name:    app.ERR.InternalServerError.Name,
@@ -53,33 +54,10 @@ func GetProduct(c *gin.Context, productID string) {
 		c.JSON(app.ERR.InternalServerError.Code, res)
 		return
 	}
-	logger.Debugf("Product data: %+v", products)
+	sqlRow.Scan(&product.ID, &product.NameTH, &product.DescriptionTH, &product.ProductImagePath, &product.Price)
 
-	// Select a product using product ID
-	product, err := products.selectProduct(productID)
-	if err != nil {
-		logger.Errorf("%s: %+v", "Cannot select product data", err)
-		res.Error = app.ErrorResp{
-			Name:    app.ERR.InternalServerError.Name,
-			Message: app.ERR.InternalServerError.Message,
-		}
-		c.JSON(app.ERR.InternalServerError.Code, res)
-		return
-	}
-
-	relevantProducts, err := products.selectProductRandom(4)
-	if err != nil {
-		logger.Errorf("%s: %+v", "Cannot sample products from product data", err)
-		res.Error = app.ErrorResp{
-			Name:    app.ERR.InternalServerError.Name,
-			Message: app.ERR.InternalServerError.Message,
-		}
-		c.JSON(app.ERR.InternalServerError.Code, res)
-		return
-	}
-
+	logger.Debugf("Product data: %+v", product)
 	res.ProductData = product
-	res.RelevantProductData = relevantProducts
 
 	c.JSON(http.StatusOK, res)
 }
