@@ -5,3 +5,10 @@ app:
 aws:
   access_key_id: ""
   secret_access_key: ""
+
+mysql:
+  host: "localhost"
+  port: 3306
+  username: "admin"
+  password: ""
+  db_name: "kirenbbq"
