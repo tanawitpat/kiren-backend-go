@@ -43,9 +43,12 @@ func GetProduct(c *gin.Context, productID string) {
 	res := GetProductResponse{}
 
 	product := Product{}
-	sqlRow, err := app.QueryRow(`SELECT product_id, product_name_th, product_description_th, product_image_path, product_price FROM products WHERE product_id="` + productID + `"`)
+	sqlRow, err := app.QueryRow(`
+		SELECT product_id, product_name_th, product_description_th, product_image_path, product_price 
+		FROM products 
+		WHERE product_id="` + productID + `"`,
+	)
 	if err != nil {
-		logger.Errorln("HELLOWORLD")
 		logger.Errorf("%s: %+v", "Cannot fetch product data", err)
 		res.Error = app.ErrorResp{
 			Name:    app.ERR.InternalServerError.Name,
