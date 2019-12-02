@@ -1,6 +1,7 @@
 package product
 
 import (
+	"database/sql"
 	"kiren-backend-go/internal/app"
 	"net/http"
 
@@ -16,19 +17,41 @@ func GetProducts(c *gin.Context) {
 	// Initialize response model
 	res := GetProductsResponse{}
 
-	// Load all products
-	products, err := loadProduct()
-	if err != nil {
-		logger.Errorf("%s: %+v", "Cannot fetch products data", err)
-		res.Error = app.ErrorResp{
-			Name:    app.ERR.InternalServerError.Name,
-			Message: app.ERR.InternalServerError.Message,
-		}
-		c.JSON(app.ERR.InternalServerError.Code, res)
-		return
-	}
-	logger.Debugf("Product data: %+v", products)
+	selDB, err := app.Query(`
+		SELECT product_id, product_name_th, product_description_th, product_image_path, product_price 
+		FROM products 
+	`)
 
+	products := Products{}
+	for selDB.Next() {
+		var productID, productNameTH, productNameEN, productDescriptionTH, productDescriptionEN, productImagePath sql.NullString
+		var productPrice sql.NullFloat64
+		var productBestSellerFlag sql.NullBool
+		err = selDB.Scan(&productID, &productNameTH, &productDescriptionTH, &productImagePath, &productPrice)
+		if err != nil {
+			logger.Errorf("%s: %+v", "Cannot fetch products data", err)
+			res.Error = app.ErrorResp{
+				Name:    app.ERR.InternalServerError.Name,
+				Message: app.ERR.InternalServerError.Message,
+			}
+			c.JSON(app.ERR.InternalServerError.Code, res)
+			return
+		}
+		productSQLNull := ProductSQLNull{
+			ID:               productID,
+			NameTH:           productNameTH,
+			NameEN:           productNameEN,
+			DescriptionTH:    productDescriptionTH,
+			DescriptionEN:    productDescriptionEN,
+			ProductImagePath: productImagePath,
+			Price:            productPrice,
+			BestSellerFlag:   productBestSellerFlag,
+		}
+		product := mapSQLNullToProduct(productSQLNull)
+		products = append(products, product)
+	}
+
+	logger.Debugf("Product data: %+v", products)
 	res.ProductData = products
 	c.JSON(http.StatusOK, res)
 }

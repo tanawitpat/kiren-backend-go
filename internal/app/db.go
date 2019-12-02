@@ -8,7 +8,25 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// QueryRow creates a MySQL connection and execute the provided SQL script.
+// Query creates a MySQL connection and execute the provided SQL script using Query function.
+func Query(query string) (*sql.Rows, error) {
+	// Open up database connection.
+	db, err := initMySQLConnection()
+	if err != nil {
+		return nil, err
+	}
+
+	sqlRows, err := db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+
+	// Defer the close till after the main function has finished executing
+	defer db.Close()
+	return sqlRows, nil
+}
+
+// QueryRow creates a MySQL connection and execute the provided SQL script using QueryRow function.
 func QueryRow(query string) (*sql.Row, error) {
 	// Open up database connection.
 	db, err := initMySQLConnection()

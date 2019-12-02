@@ -1,6 +1,7 @@
 package product
 
 import (
+	"database/sql"
 	"kiren-backend-go/internal/app"
 )
 
@@ -18,6 +19,19 @@ type Product struct {
 	ProductImagePath string  `json:"product_image_path"`
 	BestSellerFlag   bool    `json:"best_seller_flag"`
 	CategoryID       string  `json:"category_id"`
+}
+
+// ProductSQLNull represents the product model with SQL Null schema
+type ProductSQLNull struct {
+	ID               sql.NullString  `json:"product_id"`
+	NameTH           sql.NullString  `json:"product_name_th"`
+	NameEN           sql.NullString  `json:"product_name_en"`
+	DescriptionTH    sql.NullString  `json:"product_description_th"`
+	DescriptionEN    sql.NullString  `json:"product_description_en"`
+	Price            sql.NullFloat64 `json:"product_price"`
+	ProductImagePath sql.NullString  `json:"product_image_path"`
+	BestSellerFlag   sql.NullBool    `json:"best_seller_flag"`
+	CategoryID       sql.NullString  `json:"category_id"`
 }
 
 // GetProductsResponse represents the response model of GetProducts endpoint.
