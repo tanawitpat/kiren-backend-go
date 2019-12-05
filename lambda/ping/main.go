@@ -1,17 +1,13 @@
 package main
 
 import (
+	"kiren-backend-go/internal/core/pingpong"
+
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type Response struct {
-	Message string `json:"message"`
-}
-
-func handler() (Response, error) {
-	response := Response{
-		Message: "pong",
-	}
+func handler() (string, error) {
+	response, _ := pingpong.Ping()
 	return response, nil
 }
 
