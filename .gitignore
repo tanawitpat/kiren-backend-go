@@ -1,3 +1,6 @@
 vendor
 glide.lock
 deployment/prd/*.yaml
+tmp
+main
+main.zip
