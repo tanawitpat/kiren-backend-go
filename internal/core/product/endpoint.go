@@ -4,13 +4,11 @@ import (
 	"database/sql"
 	"kiren-backend-go/internal/app"
 	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
 // GetProducts is a logic of the /products endpoint.
 // The function loads the product data and returns the value in the JSON form.
-func GetProducts(c *gin.Context) {
+func GetProducts() (GetProductsResponse, int) {
 	// Initialize logger
 	logger := app.InitLogger()
 
@@ -21,6 +19,14 @@ func GetProducts(c *gin.Context) {
 		SELECT product_id, product_name_th, product_description_th, product_image_path, product_price 
 		FROM products 
 	`)
+	if err != nil {
+		logger.Errorf("%s: %+v", "Query failed", err)
+		res.Error = app.ErrorResp{
+			Name:    app.ERR.InternalServerError.Name,
+			Message: app.ERR.InternalServerError.Message,
+		}
+		return res, app.ERR.InternalServerError.Code
+	}
 
 	products := Products{}
 	for selDB.Next() {
@@ -34,8 +40,7 @@ func GetProducts(c *gin.Context) {
 				Name:    app.ERR.InternalServerError.Name,
 				Message: app.ERR.InternalServerError.Message,
 			}
-			c.JSON(app.ERR.InternalServerError.Code, res)
-			return
+			return res, app.ERR.InternalServerError.Code
 		}
 		productSQLNull := ProductSQLNull{
 			ID:               productID,
@@ -53,12 +58,12 @@ func GetProducts(c *gin.Context) {
 
 	logger.Debugf("Product data: %+v", products)
 	res.ProductData = products
-	c.JSON(http.StatusOK, res)
+	return res, http.StatusOK
 }
 
 // GetProduct is a logic of the /product endpoint.
 // The function inquiries a product and returns in JSON form.
-func GetProduct(c *gin.Context, productID string) {
+func GetProduct(productID string) (GetProductResponse, int) {
 	// Initialize logger
 	logger := app.InitLogger()
 
@@ -77,20 +82,19 @@ func GetProduct(c *gin.Context, productID string) {
 			Name:    app.ERR.InternalServerError.Name,
 			Message: app.ERR.InternalServerError.Message,
 		}
-		c.JSON(app.ERR.InternalServerError.Code, res)
-		return
+		return res, app.ERR.InternalServerError.Code
 	}
 	sqlRow.Scan(&product.ID, &product.NameTH, &product.DescriptionTH, &product.ProductImagePath, &product.Price)
 
 	logger.Debugf("Product data: %+v", product)
 	res.ProductData = product
 
-	c.JSON(http.StatusOK, res)
+	return res, http.StatusOK
 }
 
 // GetBestSellerProducts is a logic of the /best_seller_product endpoint.
 // The function inquiries best seller products and returns in JSON form.
-func GetBestSellerProducts(c *gin.Context) {
+func GetBestSellerProducts() (BestSellerProductResponse, int) {
 	// Initialize logger
 	logger := app.InitLogger()
 
@@ -105,8 +109,7 @@ func GetBestSellerProducts(c *gin.Context) {
 			Name:    app.ERR.InternalServerError.Name,
 			Message: app.ERR.InternalServerError.Message,
 		}
-		c.JSON(app.ERR.InternalServerError.Code, res)
-		return
+		return res, app.ERR.InternalServerError.Code
 	}
 
 	// Filter best seller products using best_seller_flag
@@ -117,10 +120,9 @@ func GetBestSellerProducts(c *gin.Context) {
 			Name:    app.ERR.InternalServerError.Name,
 			Message: app.ERR.InternalServerError.Message,
 		}
-		c.JSON(app.ERR.InternalServerError.Code, res)
-		return
+		return res, app.ERR.InternalServerError.Code
 	}
 
 	res.ProductData = bestSellerProducts
-	c.JSON(http.StatusOK, res)
+	return res, http.StatusOK
 }

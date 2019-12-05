@@ -16,19 +16,23 @@ func NewRouter() *gin.Engine {
 
 	// Define routes
 	r.GET("/ping", func(c *gin.Context) {
-		pingpong.Ping(c)
+		response, httpStatus := pingpong.Ping()
+		c.JSON(httpStatus, response)
 	})
 
 	r.GET("/products", func(c *gin.Context) {
-		product.GetProducts(c)
+		response, httpStatus := product.GetProducts()
+		c.JSON(httpStatus, response)
 	})
 
 	r.GET("/product/:id", func(c *gin.Context) {
-		product.GetProduct(c, c.Param("id"))
+		response, httpStatus := product.GetProduct(c.Param("id"))
+		c.JSON(httpStatus, response)
 	})
 
 	r.GET("/best-seller-products", func(c *gin.Context) {
-		product.GetBestSellerProducts(c)
+		response, httpStatus := product.GetBestSellerProducts()
+		c.JSON(httpStatus, response)
 	})
 
 	return r
