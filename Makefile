@@ -11,6 +11,10 @@ build_lambda_ping:
 	GOOS=linux GOARCH=amd64 go build -o main lambda/ping/main.go
 	zip main.zip main
 
+build_lambda_products:
+	GOOS=linux GOARCH=amd64 go build -o main lambda/products/main.go
+	zip main.zip main
+
 run: build_local
 	docker-compose -f deployment/local/docker-compose.yml up -d
 	docker logs -f kiren-api

@@ -1,6 +1,8 @@
 package app
 
 import (
+	"os"
+	"strconv"
 	"strings"
 
 	"github.com/spf13/viper"
@@ -42,6 +44,22 @@ type errorDetailConfig struct {
 	Code    int    `mapstructure:"code"`
 	Name    string `mapstructure:"name"`
 	Message string `mapstructure:"message"`
+}
+
+func InitConfigEnv() error {
+	sqlHost := os.Getenv("MYSQL_HOST")
+	sqlPort := os.Getenv("MYSQL_PORT")
+	sqlPortInt, _ := strconv.Atoi(sqlPort)
+	sqlUsername := os.Getenv("MYSQL_USERNAME")
+	sqlPassword := os.Getenv("MYSQL_PASSWORD")
+	sqlDBName := os.Getenv("MYSQL_DB_NAME")
+
+	CFG.DB.Host = sqlHost
+	CFG.DB.Port = sqlPortInt
+	CFG.DB.Username = sqlUsername
+	CFG.DB.Password = sqlPassword
+	CFG.DB.DBName = sqlDBName
+	return nil
 }
 
 // InitConfig binds values from environment variables and config files with config models.

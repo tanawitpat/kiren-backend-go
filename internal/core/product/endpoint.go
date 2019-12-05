@@ -47,7 +47,7 @@ func GetProducts(c *gin.Context) {
 			Price:            productPrice,
 			BestSellerFlag:   productBestSellerFlag,
 		}
-		product := mapSQLNullToProduct(productSQLNull)
+		product := MapSQLNullToProduct(productSQLNull)
 		products = append(products, product)
 	}
 

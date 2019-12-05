@@ -8,7 +8,7 @@ type Response struct {
 	Message string `json:"message"`
 }
 
-func Handler() (Response, error) {
+func handler() (Response, error) {
 	response := Response{
 		Message: "pong",
 	}
@@ -16,5 +16,5 @@ func Handler() (Response, error) {
 }
 
 func main() {
-	lambda.Start(Handler)
+	lambda.Start(handler)
 }

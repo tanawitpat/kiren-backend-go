@@ -81,7 +81,7 @@ func (products Products) selectProductRandom(nProduct int) ([]Product, error) {
 	return outputProducts, nil
 }
 
-func mapSQLNullToProduct(productSQLNull ProductSQLNull) Product {
+func MapSQLNullToProduct(productSQLNull ProductSQLNull) Product {
 	id := helper.ConvertNullStringToString(productSQLNull.ID)
 	nameTH := helper.ConvertNullStringToString(productSQLNull.NameTH)
 	nameEN := helper.ConvertNullStringToString(productSQLNull.NameEN)
