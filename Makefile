@@ -7,6 +7,10 @@ build_local:
 build_prd:
 	docker build . -t kiren-api -f deployment/prd/Dockerfile
 
+build_lambda_ping:
+	GOOS=linux GOARCH=amd64 go build -o main lambda/ping/main.go
+	zip main.zip main
+
 run: build_local
 	docker-compose -f deployment/local/docker-compose.yml up -d
 	docker logs -f kiren-api
