@@ -46,7 +46,10 @@ type errorDetailConfig struct {
 	Message string `mapstructure:"message"`
 }
 
+// InitConfigEnv binds values from environment variables with appConfig model.
+// The config files in the configs directory will not be used.
 func InitConfigEnv() error {
+	// Load the environment variables
 	sqlHost := os.Getenv("MYSQL_HOST")
 	sqlPort := os.Getenv("MYSQL_PORT")
 	sqlPortInt, _ := strconv.Atoi(sqlPort)
@@ -54,12 +57,14 @@ func InitConfigEnv() error {
 	sqlPassword := os.Getenv("MYSQL_PASSWORD")
 	sqlDBName := os.Getenv("MYSQL_DB_NAME")
 
+	// Bind the load values with appConfig.DB
 	CFG.DB.Host = sqlHost
 	CFG.DB.Port = sqlPortInt
 	CFG.DB.Username = sqlUsername
 	CFG.DB.Password = sqlPassword
 	CFG.DB.DBName = sqlDBName
 
+	// Define error messages to errorConfig
 	ERR.InternalServerError = errorDetailConfig{
 		Code:    500,
 		Name:    "INTERNAL_SERVER_ERROR",
@@ -73,7 +78,7 @@ func InitConfigEnv() error {
 	return nil
 }
 
-// InitConfig binds values from environment variables and config files with config models.
+// InitConfig binds values from environment variables and config files with appConfig models.
 func InitConfig() error {
 	v := viper.New()
 

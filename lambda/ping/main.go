@@ -8,7 +8,10 @@ import (
 )
 
 func handler() (events.APIGatewayProxyResponse, error) {
+	// Get the response from the pingpong.Ping function
 	body, statusCode := pingpong.Ping()
+
+	// Return response with AWS Lambda Proxy Response
 	response := events.APIGatewayProxyResponse{
 		Body:       body,
 		StatusCode: statusCode,

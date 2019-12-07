@@ -13,6 +13,7 @@ import (
 func handler() (events.APIGatewayProxyResponse, error) {
 	var buf bytes.Buffer
 
+	// Initialize logger and load environment variables
 	logger := app.InitLogger()
 	if err := app.InitConfigEnv(); err != nil {
 		logger.Errorf("Init config error: %+v", err)
@@ -20,14 +21,18 @@ func handler() (events.APIGatewayProxyResponse, error) {
 	}
 	logger.Infof("Initial app config: %+v", app.CFG)
 
-	logicResponse, statusCode := product.GetProducts()
-	body, err := json.Marshal(logicResponse)
+	// Query products data from the database
+	productsData, statusCode := product.GetProducts()
+
+	// Convert productsData type from struct to string
+	body, err := json.Marshal(productsData)
 	if err != nil {
 		logger.Errorf("Cannot convert logic response to []byte: %+v", err)
 		return events.APIGatewayProxyResponse{StatusCode: 500}, err
 	}
 	json.HTMLEscape(&buf, body)
 
+	// Return response with AWS Lambda Proxy Response
 	response := events.APIGatewayProxyResponse{
 		Body:       buf.String(),
 		StatusCode: statusCode,
