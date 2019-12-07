@@ -1,0 +1,37 @@
+service: kiren-backend
+frameworkVersion: ">=1.28.0 <2.0.0"
+provider:
+  name: aws
+  runtime: go1.x
+  stage: staging
+  region: ap-southeast-1
+  environment:
+    MYSQL_DB_NAME: ${MYSQL_DB_NAME}
+    MYSQL_HOST: ${MYSQL_HOST}
+    MYSQL_PORT: ${MYSQL_PORT}
+    MYSQL_USERNAME: ${MYSQL_USERNAME}
+    MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+package:
+ exclude:
+   - ./**
+ include:
+   - ./bin/**
+functions:
+  ping:
+    handler: bin/ping
+    events:
+      - http:
+          path: ping
+          method: get
+  getProduct:
+    handler: bin/getProduct
+    events:
+      - http:
+          path: product
+          method: get
+  getProducts:
+    handler: bin/getProducts
+    events:
+      - http:
+          path: products
+          method: get
