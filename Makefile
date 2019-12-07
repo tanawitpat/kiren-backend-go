@@ -41,11 +41,12 @@ clear_bin:
 
 generate_serverless_deployment:
 	cp serverless.yml.template serverless.yml
-	sed -i "" 's/$${MYSQL_DB_NAME}/'${MYSQL_DB_NAME}'/g' serverless.yml
-	sed -i "" 's/$${MYSQL_HOST}/'${MYSQL_HOST}'/g' serverless.yml
-	sed -i "" 's/$${MYSQL_PORT}/'${MYSQL_PORT}'/g' serverless.yml
-	sed -i "" 's/$${MYSQL_USERNAME}/'${MYSQL_USERNAME}'/g' serverless.yml
-	sed -i "" 's/$${MYSQL_PASSWORD}/'${MYSQL_PASSWORD}'/g' serverless.yml
+	sed -i "" 's/$${SERVERLESS_STAGE}/'${SERVERLESS_STAGE}'/g' serverless.yml
+	sed -i "" 's/$${MYSQL_DB_NAME}/'${SERVERLESS_MYSQL_DB_NAME}'/g' serverless.yml
+	sed -i "" 's/$${MYSQL_HOST}/'${SERVERLESS_MYSQL_HOST}'/g' serverless.yml
+	sed -i "" 's/$${MYSQL_PORT}/'${SERVERLESS_MYSQL_PORT}'/g' serverless.yml
+	sed -i "" 's/$${MYSQL_USERNAME}/'${SERVERLESS_MYSQL_USERNAME}'/g' serverless.yml
+	sed -i "" 's/$${MYSQL_PASSWORD}/'${SERVERLESS_MYSQL_PASSWORD}'/g' serverless.yml
 
 build_lambda:
 	GOOS=linux go build -o bin/ping lambda/ping/main.go
