@@ -1,6 +1,11 @@
+bin
 vendor
 glide.lock
+.env
+
+# Kubernetes deployment files
 deployment/prd/*.yaml
-tmp
-main
-main.zip
+
+# serverless
+.serverless
+serverless.yml
