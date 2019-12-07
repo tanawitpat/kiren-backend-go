@@ -69,8 +69,16 @@ func GetProduct(productID string) (GetProductResponse, int) {
 
 	// Initialize response model
 	res := GetProductResponse{}
-
 	product := Product{}
+
+	if productID == "" {
+		logger.Errorf("%s", "No productID provided")
+		res.Error = app.ErrorResp{
+			Name:    app.ERR.BadRequest.Name,
+			Message: app.ERR.BadRequest.Message,
+		}
+		return res, app.ERR.BadRequest.Code
+	}
 	sqlRow, err := app.QueryRow(`
 		SELECT product_id, product_name_th, product_description_th, product_image_path, product_price 
 		FROM products 

@@ -36,19 +36,19 @@ type ProductSQLNull struct {
 
 // GetProductsResponse represents the response model of GetProducts endpoint.
 type GetProductsResponse struct {
-	ProductData []Product     `json:"product_data"`
+	ProductData []Product     `json:"product_data,omitempty"`
 	Error       app.ErrorResp `json:"error,omitempty"`
 }
 
 // GetProductResponse represents the response model of GetProduct endpoint.
 type GetProductResponse struct {
-	ProductData         Product       `json:"product_data"`
-	RelevantProductData []Product     `json:"relevant_product_data"`
+	ProductData         Product       `json:"product_data,omitempty"`
+	RelevantProductData []Product     `json:"relevant_product_data,omitempty"`
 	Error               app.ErrorResp `json:"error,omitempty"`
 }
 
 // BestSellerProductResponse represents the response model of GetBestSellerProduct endpoint.
 type BestSellerProductResponse struct {
-	ProductData []Product     `json:"product_data"`
+	ProductData []Product     `json:"product_data,omitempty"`
 	Error       app.ErrorResp `json:"error,omitempty"`
 }

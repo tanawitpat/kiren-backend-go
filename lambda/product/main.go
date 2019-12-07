@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-func handler() (events.APIGatewayProxyResponse, error) {
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	var buf bytes.Buffer
 
 	logger := app.InitLogger()
@@ -20,7 +20,10 @@ func handler() (events.APIGatewayProxyResponse, error) {
 	}
 	logger.Infof("Initial app config: %+v", app.CFG)
 
-	logicResponse, statusCode := product.GetProducts()
+	productID := request.QueryStringParameters["product_id"]
+	logger.Infof("product_id: %+v", productID)
+
+	logicResponse, statusCode := product.GetProduct(productID)
 	body, err := json.Marshal(logicResponse)
 	if err != nil {
 		logger.Errorf("Cannot convert logic response to []byte: %+v", err)
