@@ -59,6 +59,17 @@ func InitConfigEnv() error {
 	CFG.DB.Username = sqlUsername
 	CFG.DB.Password = sqlPassword
 	CFG.DB.DBName = sqlDBName
+
+	ERR.InternalServerError = errorDetailConfig{
+		Code:    500,
+		Name:    "INTERNAL_SERVER_ERROR",
+		Message: "",
+	}
+	ERR.BadRequest = errorDetailConfig{
+		Code:    400,
+		Name:    "BAD_REQUEST",
+		Message: "",
+	}
 	return nil
 }
 
