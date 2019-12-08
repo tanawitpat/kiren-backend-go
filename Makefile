@@ -52,11 +52,7 @@ build_lambda:
 	GOOS=linux go build -o bin/ping lambda/ping/main.go
 	GOOS=linux go build -o bin/getProduct lambda/getProduct/main.go
 	GOOS=linux go build -o bin/getProducts lambda/getProducts/main.go
-
-pack_lambda:
-	zip bin/ping.zip bin/ping
-	zip bin/getProduct.zip bin/getProduct
-	zip bin/getProducts.zip bin/getProducts
+	GOOS=linux go build -o bin/getBestSellerProducts lambda/getBestSellerProducts/main.go
 
 deploy_lambda: generate_serverless_deployment clear_bin build_lambda
 	sls deploy --verbose
