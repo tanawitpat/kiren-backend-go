@@ -35,3 +35,9 @@ functions:
       - http:
           path: products
           method: get
+  getBestSellerProducts:
+    handler: bin/getBestSellerProducts
+    events:
+      - http:
+          path: best-seller-products
+          method: get
