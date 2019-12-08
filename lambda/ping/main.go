@@ -16,7 +16,8 @@ func handler() (events.APIGatewayProxyResponse, error) {
 		Body:       body,
 		StatusCode: statusCode,
 		Headers: map[string]string{
-			"Content-Type": "text/plain",
+			"Content-Type":                "text/plain",
+			"Access-Control-Allow-Origin": "*",
 		},
 	}
 	return response, nil
