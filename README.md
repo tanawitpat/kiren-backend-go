@@ -12,6 +12,8 @@ The API specification is served by Swagger. It can be accessed via `make api_spe
 
 ## Commands
 
+The environment variables will be imported from '.env'.
+
 ```bash
 # Install libraries
 make install
@@ -25,9 +27,14 @@ make run
 # Run unit tests
 make unit_test
 
-# Deploy the service to GKE
-make deploy GCLOUD_PROJECT_ID=<GCLOUD_PROJECT_ID>
-
 # Preview API specification
 make api_spec
+
+# Deploy the service to GKE
+# Environment variable: GCLOUD_PROJECT_ID
+make deploy
+
+# Deploy the service to AWS lambda
+# Environment variables: SERVERLESS_STAGE, SERVERLESS_MYSQL_DB_NAME, SERVERLESS_MYSQL_HOST, SERVERLESS_MYSQL_PORT, SERVERLESS_MYSQL_USERNAME, SERVERLESS_MYSQL_PASSWORD
+make deploy_lambda
 ```
