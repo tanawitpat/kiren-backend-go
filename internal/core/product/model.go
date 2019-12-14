@@ -17,8 +17,8 @@ type Product struct {
 	DescriptionEN    string  `json:"product_description_en"`
 	Price            float64 `json:"product_price"`
 	ProductImagePath string  `json:"product_image_path"`
-	BestSellerFlag   bool    `json:"best_seller_flag"`
-	CategoryID       string  `json:"category_id"`
+	BestSellerFlag   string  `json:"best_seller_flag,omitempty"`
+	CategoryID       string  `json:"category_id,omitempty"`
 }
 
 // ProductSQLNull represents the product model with SQL Null schema
@@ -30,7 +30,7 @@ type ProductSQLNull struct {
 	DescriptionEN    sql.NullString  `json:"product_description_en"`
 	Price            sql.NullFloat64 `json:"product_price"`
 	ProductImagePath sql.NullString  `json:"product_image_path"`
-	BestSellerFlag   sql.NullBool    `json:"best_seller_flag"`
+	BestSellerFlag   sql.NullString  `json:"best_seller_flag"`
 	CategoryID       sql.NullString  `json:"category_id"`
 }
 

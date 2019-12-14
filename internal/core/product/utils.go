@@ -58,7 +58,7 @@ func (products Products) getBestSellerProduct() []Product {
 
 	// Append best seller products to bestSellerProducts slice
 	for i := range products {
-		if products[i].BestSellerFlag {
+		if products[i].BestSellerFlag == "Y" {
 			bestSellerProducts = append(bestSellerProducts, products[i])
 		}
 	}
@@ -89,7 +89,7 @@ func MapSQLNullToProduct(productSQLNull ProductSQLNull) Product {
 	descriptionEN := helper.ConvertNullStringToString(productSQLNull.DescriptionEN)
 	price := helper.ConvertNullFloat64ToFloat64(productSQLNull.Price)
 	imagePath := helper.ConvertNullStringToString(productSQLNull.ProductImagePath)
-	bestSellerFlag := helper.ConvertNullBoolToBool(productSQLNull.BestSellerFlag)
+	bestSellerFlag := helper.ConvertNullStringToString(productSQLNull.BestSellerFlag)
 	product := Product{
 		ID:               id,
 		NameTH:           nameTH,

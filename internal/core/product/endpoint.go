@@ -32,9 +32,8 @@ func GetProducts() (GetProductsResponse, int) {
 	// Map the queried data with the products model
 	products := Products{}
 	for selDB.Next() {
-		var productID, productNameTH, productNameEN, productDescriptionTH, productDescriptionEN, productImagePath sql.NullString
+		var productID, productNameTH, productNameEN, productDescriptionTH, productDescriptionEN, productImagePath, productBestSellerFlag sql.NullString
 		var productPrice sql.NullFloat64
-		var productBestSellerFlag sql.NullBool
 		err = selDB.Scan(&productID, &productNameTH, &productDescriptionTH, &productImagePath, &productPrice)
 		if err != nil {
 			logger.Errorf("%s: %+v", "Cannot fetch products data", err)
@@ -119,9 +118,8 @@ func GetProduct(productID string) (GetProductResponse, int) {
 
 	// Map the queried data with the products struct
 	for sqlRowRelevantProducts.Next() {
-		var productID, productNameTH, productNameEN, productDescriptionTH, productDescriptionEN, productImagePath sql.NullString
+		var productID, productNameTH, productNameEN, productDescriptionTH, productDescriptionEN, productImagePath, productBestSellerFlag sql.NullString
 		var productPrice sql.NullFloat64
-		var productBestSellerFlag sql.NullBool
 		err = sqlRowRelevantProducts.Scan(&productID, &productNameTH, &productDescriptionTH, &productImagePath, &productPrice)
 		if err != nil {
 			logger.Errorf("%s: %+v", "Cannot fetch products data", err)
@@ -161,7 +159,7 @@ func GetBestSellerProducts() (BestSellerProductResponse, int) {
 
 	// Query products data
 	selDB, err := app.Query(`
-		SELECT product_id, product_name_th, product_description_th, product_image_path, product_price 
+		SELECT product_id, product_name_th, product_description_th, product_image_path, product_price, best_seller_flag
 		FROM products
 		WHERE best_seller_flag="Y"
 	`)
@@ -177,10 +175,9 @@ func GetBestSellerProducts() (BestSellerProductResponse, int) {
 	// Map the queried data with the products model
 	products := Products{}
 	for selDB.Next() {
-		var productID, productNameTH, productNameEN, productDescriptionTH, productDescriptionEN, productImagePath sql.NullString
+		var productID, productNameTH, productNameEN, productDescriptionTH, productDescriptionEN, productImagePath, productBestSellerFlag sql.NullString
 		var productPrice sql.NullFloat64
-		var productBestSellerFlag sql.NullBool
-		err = selDB.Scan(&productID, &productNameTH, &productDescriptionTH, &productImagePath, &productPrice)
+		err = selDB.Scan(&productID, &productNameTH, &productDescriptionTH, &productImagePath, &productPrice, &productBestSellerFlag)
 		if err != nil {
 			logger.Errorf("%s: %+v", "Cannot fetch products data", err)
 			res.Error = app.ErrorResp{
