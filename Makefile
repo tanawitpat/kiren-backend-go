@@ -17,6 +17,9 @@ run: build_local
 	docker-compose -f deployment/local/docker-compose.yml up -d
 	docker logs -f kiren-api
 
+run_mysql:
+	docker-compose -f deployment/local/docker-compose.yml up -d mysql
+
 # Kubernetes deployment
 release: build_prd
 	docker tag kiren-api asia.gcr.io/${GCLOUD_PROJECT_ID}/kiren-api

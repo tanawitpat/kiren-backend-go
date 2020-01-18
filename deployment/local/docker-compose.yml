@@ -23,6 +23,8 @@ services:
       - ${KIREN_MYSQL_PORT:-3306}:3306
     environment:
       MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
 
 networks:
   kiren:
