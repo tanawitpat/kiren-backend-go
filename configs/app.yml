@@ -9,6 +9,6 @@ aws:
 mysql:
   host: "localhost"
   port: 3306
-  username: "admin"
-  password: ""
+  username: "root"
+  password: "password"
   db_name: "kirenbbq"
