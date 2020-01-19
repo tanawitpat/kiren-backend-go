@@ -81,6 +81,8 @@ func (products Products) selectProductRandom(nProduct int) ([]Product, error) {
 	return outputProducts, nil
 }
 
+// MapSQLNullToProduct converts a SQL null type to a default Go value of that type.
+// For example, null in string type will be converted to empty string ("").
 func MapSQLNullToProduct(productSQLNull ProductSQLNull) Product {
 	id := helper.ConvertNullStringToString(productSQLNull.ID)
 	nameTH := helper.ConvertNullStringToString(productSQLNull.NameTH)
